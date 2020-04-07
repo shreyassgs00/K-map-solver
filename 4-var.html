@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <script type="application/javascript" src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+    <script type="application/javascript" src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js">
+    </script>
+    <script type="application/javascript" src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    
+    <head>
+        
+        <link rel = "stylesheet" href = "bootstrap/css/bootstrap-grid.min.css">
+        <meta charset = "utf-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale = 1">    
+        <title> 4-variable K-map  </title>
+        <script src = "bootstrap/js/jquery/dist/jquery.min.js"> </script>
+        <script src = "bootstrap/js/bootstrap.bundle.min.js"> </script>
+
+    </head>
+    <body>
+
+        <p> Please use the below buttons to frame your input with the Sum of Product terms separated by a '+'</p>
+        <br>
+        <br>
+
+        <div class = "row">
+            <div class = "col-sm-6">  
+                <button class = "btn btn-default" value = "A" onclick="concatExpression(this);">A</button>
+            </div>
+            <div class = "col-sm-6">  
+                <button class = "btn btn-default" value = "A'" onclick="concatExpression(this);">A'</button>
+            </div>
+        </div>
+        <div class = "row">
+            <div class = "col-sm-6">  
+                <button class = "btn btn-default" value = "B" onclick="concatExpression(this);">B</button>
+            </div>
+            <div class = "col-sm-6">  
+                <button class = "btn btn-default" value = "B" onclick="concatExpression(this);">B'</button>
+            </div>
+        </div>
+        <div class = "row">
+            <div class = "col-sm-6">  
+                <button class = "btn btn-default" value = "C" onclick="concatExpression(this);">C</button>
+            </div>
+            <div class = "col-sm-6">  
+                <button class = "btn btn-default" value = "C'" onclick="concatExpression(this);">C'</button>
+            </div>
+        </div>
+        <div class = "row">
+            <div class = "col-sm-6">  
+                <button class = "btn btn-default" value = "D" onclick="concatExpression(this);">D</button>
+            </div>
+            <div class = "col-sm-6">  
+                <button class = "btn btn-default" value = "D'" onclick="concatExpression(this);">D'</button>
+            </div>
+        </div>
+        <div class = "row">
+            <div class = "col-sm-6">  
+                <button class = "btn btn-default" value = "+" onclick="concatExpression(this);">+</button>
+            </div>
+        </div>
+
+        <br>
+        <label for = "expression"> Expression </label>
+        <br>
+        <input type = "text" name = "expression" id="inputExpression">  <button class = "btn btn-default" onclick = "backspace(this);"> Backspace </button> 
+        <button class = "btn btn-default" onclick="submit(this);"> Submit </button> 
+        <br>
+        <br>
+
+        <script src = "input.js"> </script>
+
+        <button type="button" class = "btn btn-link"> <a href = "K-map.html"> Back to home </button> </a>
+        
+    </body>
+
+</html>
