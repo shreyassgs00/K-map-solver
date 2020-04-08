@@ -20,4 +20,10 @@ function backspace(clickedButton)
     
 }
 
+function refresh(clickedButton)
+{
+    var inputBox = document.getElementById("inputExpression");
+    inputBox.value = '';
+}
+
 
