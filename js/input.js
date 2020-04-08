@@ -20,11 +20,4 @@ function backspace(clickedButton)
     
 }
 
-var finalExpression = '';
-function submit(clickedButton)
-{
-    var inputBox = document.getElementById("inputExpression");
-    finalExpression = inputBox.value;
-    console.log(finalExpression);
-}
 
