@@ -1,36 +1,33 @@
-let finalExpression = '';
-function submit(clickedButton)
+function generate3VarArray(booleanExpression)
 {
-    const inputBox = document.getElementById("inputExpression");
-    let errorMessage = "";
-    let hasFoundError = false;
-    finalExpression = inputBox.value;
-    
-    if (finalExpression[finalExpression.length - 1] == "+"){
-        errorMessage = "Invalid expression ending with a logical operator. Please input a valid expression";
-        hasFoundError = true;
-    }        
+    var minterms = booleanExpression.split("+");
 
-    const minterms = finalExpression.split("+");
+    var array = [[],[]];
+    for (let i = 0; i < 2; i++)
+    {
+        for (let j = 0; j < 4; j++)
+        {
+            array[i][j] = 0;
+        }
+    }
+
     for (let minterm of minterms)
     {
-        let tokenCounter = new Object();
-        for(let token of minterm){
-            if(token == `'`)
-                continue;
-            if(!Object.keys(tokenCounter).includes(token))
-                tokenCounter[token] = 0;
-            tokenCounter[token] += 1;
-            if(tokenCounter[token] > 1){
-                errorMessage = "Invalid expression as the same Boolean or complement Boolean value are used in the same term";
-                hasFoundError = true;
-                break;
-            }                
+        switch (minterm)
+        {
+            case "A'B'C'": array[0][0]=1; break;
+            case "A'B'C": array[0][1]=1; break;
+            case "A'BC'": array[0][3]=1; break;
+            case "A'BC": array[0][2]=1; break;
+            
+            case "AB'C'": array[1][0]=1; break;
+            case "AB'C": array[1][1]=1; break;
+            case "ABC'": array[1][3]=1; break;
+            case "ABC": array[1][2]=1; break;
         }
-        if(hasFoundError)
-            break;
     }
-    
-    if(hasFoundError)
-        alert(errorMessage);
+    return array;
 }
+
+
+

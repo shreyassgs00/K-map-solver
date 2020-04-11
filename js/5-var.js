@@ -1,36 +1,60 @@
-let finalExpression = '';
-function submit(clickedButton)
+function generate5VarArray(booleanExpression)
 {
-    const inputBox = document.getElementById("inputExpression");
-    let errorMessage = "";
-    let hasFoundError = false;
-    finalExpression = inputBox.value;
-    
-    if (finalExpression[finalExpression.length - 1] == "+"){
-        errorMessage = "Invalid expression ending with a logical operator. Please input a valid expression";
-        hasFoundError = true;
-    }        
+    var minterms = booleanExpression.split("+");
 
-    const minterms = finalExpression.split("+");
+    var array = [[],[]];
+    for (let i = 0; i < 4; i++)
+    {
+        for (let j = 0; j < 8; j++)
+        {
+            array[i][j] = 0;
+        }
+    }
+
     for (let minterm of minterms)
     {
-        let tokenCounter = new Object();
-        for(let token of minterm){
-            if(token == `'`)
-                continue;
-            if(!Object.keys(tokenCounter).includes(token))
-                tokenCounter[token] = 0;
-            tokenCounter[token] += 1;
-            if(tokenCounter[token] > 1){
-                errorMessage = "Invalid expression as the same Boolean or complement Boolean value are used in the same term";
-                hasFoundError = true;
-                break;
-            }                
+        switch (minterm)
+        {
+            case "A'B'C'D'E'": array[0][0]=1; break;
+            case "A'B'C'D'E": array[0][1]=1; break;
+            case "A'B'C'DE'": array[0][3]=1; break;
+            case "A'B'C'DE": array[0][2]=1; break;
+
+            case "A'B'CD'E'": array[1][0]=1; break;
+            case "A'B'CD'E": array[1][1]=1; break;
+            case "A'B'CDE'": array[1][3]=1; break;
+            case "A'B'CDE": array[1][2]=1; break;
+
+            case "A'BC'D'E'": array[3][0]=1; break;
+            case "A'BC'D'E": array[3][1]=1; break;
+            case "A'BC'DE'": array[3][3]=1; break;
+            case "A'BC'DE": array[3][2]=1; break;
+
+            case "A'BCD'E'": array[2][0]=1; break;
+            case "A'BCD'E": array[2][1]=1; break;
+            case "A'BCDE'": array[2][3]=1; break;
+            case "A'BCDE": array[2][2]=1; break;
+
+            case "AB'C'D'E'": array[0][4]=1; break;
+            case "AB'C'D'E": array[0][5]=1; break;
+            case "AB'C'DE'": array[0][7]=1; break;
+            case "AB'C'DE": array[0][6]=1; break;
+
+            case "AB'CD'E'": array[1][4]=1; break;
+            case "AB'CD'E": array[1][5]=1; break;
+            case "AB'CDE'": array[1][7]=1; break;
+            case "AB'CDE": array[1][6]=1; break;
+
+            case "ABC'D'E'": array[3][4]=1; break;
+            case "ABC'D'E": array[3][5]=1; break;
+            case "ABC'DE'": array[3][7]=1; break;
+            case "ABC'DE": array[3][6]=1; break;
+
+            case "ABCD'E'": array[2][4]=1; break;
+            case "ABCD'E": array[2][5]=1; break;
+            case "ABCDE'": array[2][7]=1; break;
+            case "ABCDE": array[2][6]=1; break;
         }
-        if(hasFoundError)
-            break;
     }
-    
-    if(hasFoundError)
-        alert(errorMessage);
+    return array;
 }
