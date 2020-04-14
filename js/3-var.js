@@ -30,4 +30,41 @@ function generate3VarArray(booleanExpression)
 }
 
 
+function solve3Var(booleanExpression)
+{
+
+    var minterms = booleanExpression.split('+');
+    const m0 = m1 = m2 = m3 = m4 = m5 = m6 = m7 = 0;
+    var finalAnswer;
+
+    for (let minterm of minterms)
+    {
+        switch (minterm)
+        {
+            case "A'B'C'": m0=1; break;
+            case "A'B'C": m1=1; break;
+            case "A'BC'": m3=1; break;
+            case "A'BC": m2=1; break;
+            
+            case "AB'C'": m4=1; break;
+            case "AB'C": m5=1; break;
+            case "ABC'": m7=1; break;
+            case "ABC": m6=1; break;
+        }
+    }
+
+    if (m0 ==1 && m1 ==1 && m2 ==1 && m3 ==1 && m4 ==1 && m5 ==1 && m6 ==1 && m7 ==1 )
+    {
+        finalAnswer = '1';
+    }
+
+        
+
+    return finalAnswer;
+    
+}
+
+
+
+
 
