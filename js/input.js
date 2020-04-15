@@ -29,117 +29,19 @@ function refresh(clickedButton)
 function generateKmap(clickedButton)
 {
     var finalExpression = document.getElementById("inputExpression").value;
+    console.log(finalExpression);
     let errorMessage = "";
     let hasFoundError = false;
     
-    if (finalExpression[finalExpression.length - 1] == "+")
-    {
+    if (finalExpression[finalExpression.length - 1] == "+") {
         errorMessage = "Invalid expression ending with a logical operator. Please input a valid expression. Please refresh and try again.";
         hasFoundError = true;
     }
 
     const minterms = finalExpression.split("+");
-    
-    if (!hasFoundError)
-    {
-        var comparisonArray = minterms;
-        for (let i = 0; i < minterms.length-1; i++)
-        {
-            for (let j = i+1; j < comparisonArray.length; j++)
-            {
-                if (minterms[i] == comparisonArray[j])
-                {
-                    hasFoundError = true;
-                    errorMessage = "Invalid input as one or more Boolean minterms are repeating. Please refresh and try again.";
-                    break;
-                }
-                else
-                    continue;
-            }
-            if (hasFoundError)
-                break;
-        }
-    }
-
-
-    if (!hasFoundError)
-    {
-        var minterm = [[],[]];
-        for (let i = 0; i < minterms.length; i++)
-        {
-            minterm[i] = minterms[i].split('');
-
-            for (let j = 0; j < minterm.length; j++)
-            {
-                if (minterm[i][j+1] == "'")
-                {
-                    minterm[i][j] = minterm[j] + "'";
-                    minterm.splice([i][j+1],1);
-                    continue;
-                }
-                else
-                {
-                    continue;
-                }
-                
-            }
-            
-        }
-
-        for (let k = 0; k < minterms.length-1; k++)
-        {
-            minterm[k].sort();
-        }
-        
-        for (let m = 0; m < minterms.length-1; m++)
-        {
-            for (let n = m+1; n < minterms.length; n++)
-            {
-                if (minterm[m]== minterm[n])
-                {
-                    hasFoundError = true;
-                    errorMessage =  "Invalid input as one or more Boolean minterms are repeating. Please refresh and try again.";
-                    break;
-                }
-                else
-                    continue;
-            }
-        if (hasFoundError)
-            break;
-        }
-          
-    }
-
-    if(!hasFoundError)
-    {
-        for (let  i = 0; i < minterms.length; i++)
-        {
-            let array = minterms[i].split('');
-            let counter = 0;
-
-            for (let j = 0; j < array.length; j++)
-            {
-                if (array[j] == "'")
-                    continue;
-                else
-                    counter = counter +1; 
-            }
-
-            if (counter > 2 && counter < 6)
-                continue;
-            else
-            {
-                hasFoundError = true;
-                errorMessage = "Invalid minterm(s) in the expression which is input. Please refresh and try again.";
-                break;
-            }
-        }
-        if (hasFoundError)
-            alert(errorMessage);
-    }
 
     for (let minterm of minterms)
-    {
+    { // Check for repeating characters in each minterm
         let tokenCounter = new Object();
         for(let token of minterm)
         {
@@ -157,7 +59,41 @@ function generateKmap(clickedButton)
         if(hasFoundError)
             break;
     }
-    
+
+
+
+    if (!hasFoundError) {
+        let minterm = new Array();
+        for (let i = 0; i < minterms.length; i++) {
+            minterm.push(minterms[i].split(''))
+            for (let j = 0; j < minterm[i].length; j++) {
+                if (minterm[i][j+1] == "'") {
+                    minterm[i][j] = minterm[i][j] + "'";
+                    minterm[i].splice(j, 1);
+                }
+            }
+            if(minterm[i].length < 3 || minterm[i].length >= 6){
+                hasFoundError = true;
+                errorMessage = "Invalid minterm(s) in the expression which is input. Please refresh and try again.";
+                break;
+            }
+            minterm[i].sort();            
+        }
+        
+        let mintermRepetitionObject = new Object();
+        for (let i = 0; i < minterm.length && !hasFoundError; i++) {
+            const mintermString = minterm[i].join('');
+            if (mintermRepetitionObject[mintermString] === undefined)
+                mintermRepetitionObject[mintermString] = 0;
+            mintermRepetitionObject[mintermString] += 1;
+            if(mintermRepetitionObject[mintermString] >= 2){
+                hasFoundError = true;
+                errorMessage =  "Invalid input as one or more Boolean minterms are repeating. Please refresh and try again.";
+                break;
+            }
+        }
+    }    
+
     if(hasFoundError)
         alert(errorMessage);
 }
