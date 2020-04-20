@@ -33,7 +33,8 @@ function generateKmap(clickedButton)
     let errorMessage = "";
     let hasFoundError = false;
     
-    if (finalExpression[finalExpression.length - 1] == "+") {
+    if (finalExpression[finalExpression.length - 1] == "+") 
+    {
         errorMessage = "Invalid expression ending with a logical operator. Please input a valid expression. Please refresh and try again.";
         hasFoundError = true;
     }
@@ -62,12 +63,16 @@ function generateKmap(clickedButton)
 
 
 
-    if (!hasFoundError) {
+    if (!hasFoundError)
+    {
         let minterm = new Array();
-        for (let i = 0; i < minterms.length; i++) {
+        for (let i = 0; i < minterms.length; i++)
+         {
             minterm.push(minterms[i].split(''))
-            for (let j = 0; j < minterm[i].length; j++) {
-                if (minterm[i][j+1] == "'") {
+            for (let j = 0; j < minterm[i].length; j++) 
+            {
+                if (minterm[i][j+1] == "'") 
+                {
                     minterm[i][j] = minterm[i][j] + "'";
                     minterm[i].splice(j, 1);
                 }
@@ -81,12 +86,14 @@ function generateKmap(clickedButton)
         }
         
         let mintermRepetitionObject = new Object();
-        for (let i = 0; i < minterm.length && !hasFoundError; i++) {
+        for (let i = 0; i < minterm.length && !hasFoundError; i++) 
+        {
             const mintermString = minterm[i].join('');
             if (mintermRepetitionObject[mintermString] === undefined)
                 mintermRepetitionObject[mintermString] = 0;
             mintermRepetitionObject[mintermString] += 1;
-            if(mintermRepetitionObject[mintermString] >= 2){
+            if(mintermRepetitionObject[mintermString] >= 2)
+            {
                 hasFoundError = true;
                 errorMessage =  "Invalid input as one or more Boolean minterms are repeating. Please refresh and try again.";
                 break;

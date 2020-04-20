@@ -29,39 +29,65 @@ function generate3VarArray(booleanExpression)
     return array;
 }
 
+function make2Pair(booleanExpression)
+{
+    
+}
+
 
 function solve3Var(booleanExpression)
 {
 
     var minterms = booleanExpression.split('+');
-    const m0 = m1 = m2 = m3 = m4 = m5 = m6 = m7 = 0;
+    var m = [];
+
+    for (let i = 0; i < 8; i++)
+    {
+        m[i] = 0;
+    }
+
     var finalAnswer;
 
     for (let minterm of minterms)
     {
         switch (minterm)
         {
-            case "A'B'C'": m0=1; break;
-            case "A'B'C": m1=1; break;
-            case "A'BC'": m3=1; break;
-            case "A'BC": m2=1; break;
+            case "A'B'C'": m[0]=1; break;
+            case "A'B'C": m[1]=1; break;
+            case "A'BC'": m[3]=1; break;
+            case "A'BC": m[2]=1; break;
             
-            case "AB'C'": m4=1; break;
-            case "AB'C": m5=1; break;
-            case "ABC'": m7=1; break;
-            case "ABC": m6=1; break;
+            case "AB'C'": m[4]=1; break;
+            case "AB'C": m[5]=1; break;
+            case "ABC'": m[7]=1; break;
+            case "ABC": m[6]=1; break;
         }
     }
 
-    if (m0 ==1 && m1 ==1 && m2 ==1 && m3 ==1 && m4 ==1 && m5 ==1 && m6 ==1 && m7 ==1 )
+    for ( let i = 0; i < 8; i++)
     {
-        finalAnswer = '1';
+        let counter = 0;
+        if ( m[i] ==  1 && counter < 8)
+            counter = counter + 1;
+        else if (counter == 8)
+            finalAnswer = '1';
+        else 
+            break;
     }
 
-        
+    for ( let i = 0; i < 8; i++)
+    {
+        let counter = 0;
+        if ( m[i] ==  0 && counter < 8)
+            counter = counter + 1;
+        else if (counter == 8)
+            finalAnswer = '0';
+        else 
+            break;
+    }
+
 
     return finalAnswer;
-    
 }
 
 

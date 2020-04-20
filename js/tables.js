@@ -1,8 +1,6 @@
-class kMap extends React.Component 
+function generateKmapTable()
 {
-    constructor(props)
-    {
-        super(props);
-        
-    }
+    return <p> Plot Kmap table </p>;
 }
+  
+ReactDOM.render(<generateKmapTable />, document.getElementById("generateKmap"));
