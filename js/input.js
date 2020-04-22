@@ -67,14 +67,14 @@ function generateKmap(clickedButton)
     {
         let minterm = new Array();
         for (let i = 0; i < minterms.length; i++)
-         {
+        {
             minterm.push(minterms[i].split(''))
             for (let j = 0; j < minterm[i].length; j++) 
             {
                 if (minterm[i][j+1] == "'") 
                 {
                     minterm[i][j] = minterm[i][j] + "'";
-                    minterm[i].splice(j, 1);
+                    minterm[i].splice(j+1, 1);
                 }
             }
             if(minterm[i].length < 3 || minterm[i].length >= 6){
@@ -82,8 +82,11 @@ function generateKmap(clickedButton)
                 errorMessage = "Invalid minterm(s) in the expression which is input. Please refresh and try again.";
                 break;
             }
-            minterm[i].sort();            
+            minterm[i].sort();
+            minterms[i] = minterm[i].join(''); 
+            finalExpression = '';           
         }
+        finalExpression = minterms.join('+');
         
         let mintermRepetitionObject = new Object();
         for (let i = 0; i < minterm.length && !hasFoundError; i++) 
@@ -101,7 +104,14 @@ function generateKmap(clickedButton)
         }
     }    
 
+
+    
     if(hasFoundError)
         alert(errorMessage);
+    else 
+    {
+        var finalArray = getArray(finalExpression)
+        console.log(finalArray)
+    }
 }
 

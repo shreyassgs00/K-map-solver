@@ -2,7 +2,12 @@ function generate5VarArray(booleanExpression)
 {
     var minterms = booleanExpression.split("+");
 
-    var array = [[],[]];
+    var array = [];
+    for (let i = 0; i < 4; i++)
+    {
+        array[i] = new Array(8);
+    }
+
     for (let i = 0; i < 4; i++)
     {
         for (let j = 0; j < 8; j++)
