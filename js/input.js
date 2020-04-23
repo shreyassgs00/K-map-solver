@@ -110,8 +110,8 @@ function generateKmap(clickedButton)
         alert(errorMessage);
     else 
     {
-        var finalArray = getArray(finalExpression)
-        console.log(finalArray)
+        console.log(getArray(finalExpression));
+        console.log(finalExpression);
     }
 }
 
