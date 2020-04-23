@@ -2,8 +2,7 @@ function concatExpression(clickedButton)
 {
     var inputClick = clickedButton.innerHTML;
     var inputBox = document.getElementById("inputExpression");
-    inputBox.value = inputBox.value + inputClick; 
-    
+    inputBox.value = inputBox.value + inputClick;
 }
 
 function backspace(clickedButton)
@@ -17,7 +16,6 @@ function backspace(clickedButton)
     {
         inputBox.value = inputBox.value+splitInputArray[i];
     }
-    
 }
 
 function refresh(clickedButton)
@@ -108,10 +106,8 @@ function generateKmap(clickedButton)
     
     if(hasFoundError)
         alert(errorMessage);
-    else 
-    {
-        console.log(getArray(finalExpression));
+    else {
+        generateTable(finalExpression);
         console.log(finalExpression);
     }
 }
-

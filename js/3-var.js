@@ -94,8 +94,3 @@ function solve3Var(booleanExpression)
 
     return finalAnswer;
 }
-
-
-
-
-
