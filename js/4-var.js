@@ -39,7 +39,63 @@ function generate4VarArray(booleanExpression)
             case "ABC'D": array[2][1]=1; break;
             case "ABCD'": array[2][3]=1; break;
             case "ABCD": array[2][2]=1; break;
+
+            default: alert("Invalid minterm in the SOP expression. Please refresh and try again."); 
         }
     } 
     return array;
+}
+
+function findOctet(array){
+
+}
+
+function generateMinterm4Dict(booleanExpression){
+    
+    minterms = booleanExpression.split("+");
+    mintermsArray = [];
+    for (let i = 0; i < 16; i++){
+        mintermsArray[i] = 0;
+    }
+
+    for (let minterm of minterms){
+        switch(minterm){
+            case "A'B'C'D'": mintermsArray[0]=1; break;
+            case "A'B'C'D": mintermsArray[1]=1; break;
+            case "A'B'CD'": mintermsArray[3]=1; break;
+            case "A'B'CD": mintermsArray[2]=1; break;
+
+            case "A'BC'D'": mintermsArray[4]=1; break;
+            case "A'BC'D": mintermsArray[5]=1; break;
+            case "A'BCD'": mintermsArray[7]=1; break;
+            case "A'BCD": mintermsArray[6]=1; break;
+            
+            case "AB'C'D'": mintermsArray[12]=1; break;
+            case "AB'C'D": mintermsArray[13]=1; break;
+            case "AB'CD'": mintermsArray[15]=1; break;
+            case "AB'CD": mintermsArray[14]=1; break;
+            
+            case "ABC'D'": mintermsArray[8]=1; break;
+            case "ABC'D": mintermsArray[9]=1; break;
+            case "ABCD'": mintermsArray[11]=1; break;
+            case "ABCD": mintermsArray[10]=1; break;
+        }
+    }
+    return mintermsArray;
+}
+
+function solve4Var(booleanExpression){
+
+    var m = generateMinterm4Array(booleanExpression);
+    var inputExpression = booleanExpression;
+    var minterms = booleanExpression.split("+");
+    var finalAnswer = '';
+    var foundAnswer = true;
+
+    if (!foundAnswer){
+        if (minterms.length == 1){
+            finalAnswer = inputExpression;
+            foundAnswer = true;
+        }
+    }
 }

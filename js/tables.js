@@ -18,7 +18,7 @@ function generateTable(booleanExpression)
         if (minterm[i] !== "'")
             constantCount = constantCount + 1;            
     }
-    console.log(constantCount);
+
     let tableArray;
     if (constantCount == 3)
         tableArray = generate3VarArray(booleanExpression);
@@ -26,5 +26,20 @@ function generateTable(booleanExpression)
         tableArray = generate4VarArray(booleanExpression);
     else 
         tableArray = generate5VarArray(booleanExpression);
+    
+    let finalAnswer = '';
+    if (constantCount == 3)
+        finalAnswer = solve3Var(booleanExpression);
+    else if (constantCount == 4)
+        finalAnswer = solve4Var(booleanExpression);
+    else
+        finalAnswer = solve5Var(booleanExpression);
+
     ReactDOM.render(<KMapTable table={tableArray}/>, document.getElementById("generateKmap"));
+    ReactDOM.render(<DisplayAnswer finalExpression={finalAnswer}/>, document.getElementById("displayAnswer"));
+}
+
+function DisplayAnswer(props){
+    let finalExpression = '';
+    return <h1> The final expression is {props.finalExpression} </h1>;
 }

@@ -102,8 +102,6 @@ function generateKmap(clickedButton)
         }
     }    
 
-
-    
     if(hasFoundError)
         alert(errorMessage);
     else {

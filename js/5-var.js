@@ -59,7 +59,16 @@ function generate5VarArray(booleanExpression)
             case "ABCD'E": array[2][5]=1; break;
             case "ABCDE'": array[2][7]=1; break;
             case "ABCDE": array[2][6]=1; break;
+
+            default: alert("Invalid minterm in the SOP expression. Please refresh and try again."); 
         }
     }
     return array;
+}
+
+function solve5Var(booleanExpression){
+    
+    minterms = booleanExpression.split("+");
+    m = [];
+    
 }
