@@ -7,74 +7,85 @@
     <script type="application/javascript" src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
 
     <head>
-        
-        <link rel = "stylesheet" href = "../bootstrap/css/bootstrap-grid.min.css">
+        <link rel = "stylesheet" href = "../bootstrap/css/bootstrap.min.css">
         <link rel = "stylesheet" href = "../css/index.css">
         <meta charset = "utf-8">
         <meta name = "viewport" content = "width=device-width, initial-scale = 1">    
         <title>  3-variable K-map  </title>
         <script src = "../bootstrap/js/jquery/dist/jquery.min.js"> </script>
-        <script src = "../bootstrap/js/bootstrap.bundle.min.js"> </script>
+        <script src = "../bootstrap/js/bootstrap.min.js"> </script>
 
     </head>
     <body>
-
-        <p> Please use the below buttons to frame your input with the Sum of Product (SOP) terms separated by a '+'</p>
-        <br>
-        <br>
-
-        <div class = "row">
-            <div class = "col-sm-6">  
-                <button class = "btn btn-default" value = "A" onclick = "concatExpression(this);">A</button>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">3 Variable K-Map solver</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="K-map.html">Home <span class="sr-only">(current)</span></a>
+                    </li>                    
+                </ul>                
             </div>
-            <div class = "col-sm-6">  
-                <button class = "btn btn-default" value = "A" onclick = "concatExpression(this);">A'</button>
-            </div>
+        </nav>
+        <div class="container">
+            <br>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label for="expression">SOP Expression</label>
+                    <div class="input-group">                
+                        <input type = "text" name = "expression" id="inputExpression" class="form-control">                
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" onclick="backspace(this);">Backspace</button>                     
+                            <button class="btn btn-outline-secondary" onclick="refresh(this);">Refresh</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class = "col-sm-6">  
+                            <button class = "btn btn-outline-primary" value = "A" onclick = "concatExpression(this);">A</button>
+                        </div>
+                        <div class = "col-sm-6">  
+                            <button class = "btn btn-outline-primary" value = "A" onclick = "concatExpression(this);">A'</button>
+                        </div>
+                        <div class = "col-sm-3">  
+                            <button class = "btn btn-outline-primary" value = "B" onclick = "concatExpression(this);">B</button>
+                        </div>
+                        <div class = "col-sm-3">  
+                            <button class = "btn btn-outline-primary" value = "+" onclick = "concatExpression(this);">+</button>
+                        </div>
+                        <div class = "col-sm-6">  
+                            <button class = "btn btn-outline-primary" value = "B'" onclick = "concatExpression(this);">B'</button>
+                        </div>
+                        <div class = "col-sm-6">  
+                            <button class = "btn btn-outline-primary" value = "C" onclick = "concatExpression(this);">C</button>
+                        </div>
+                        <div class = "col-sm-6">  
+                            <button class = "btn btn-outline-primary" value = "C'" onclick = "concatExpression(this);">C'</button>
+                        </div>                        
+                    </div>
+                </div>
+                <div align="center" class="col-sm-8">
+                    <br>
+                    <button class = "btn btn-default" onclick = "generateKmap(this);"> Generate K-map </button> 
+                </div>
+                <div align="center" class="col-sm-12">
+                    <br>    
+                    <div id = "generateKmap"> </div>
+                </div>
+                <div align="center" class="col-sm-12">
+                    <br>
+                    <br>
+                    <div id = "displayAnswer"> </div>
+                </div>
+            </div>                                                    
         </div>
-        <div class = "row">
-            <div class = "col-sm-6">  
-                <button class = "btn btn-default" value = "B" onclick = "concatExpression(this);">B</button>
-            </div>
-            <div class = "col-sm-6">  
-                <button class = "btn btn-default" value = "B'" onclick = "concatExpression(this);">B'</button>
-            </div>
-        </div>
-        <div class = "row">
-            <div class = "col-sm-6">  
-                <button class = "btn btn-default" value = "C" onclick = "concatExpression(this);">C</button>
-            </div>
-            <div class = "col-sm-6">  
-                <button class = "btn btn-default" value = "C'" onclick = "concatExpression(this);">C'</button>
-            </div>
-        </div>
-        <div class = "row">
-            <div class = "col-sm-6">  
-                <button class = "btn btn-default" value = "+" onclick = "concatExpression(this);">+</button>
-            </div>
-        </div>
-        
-        <br>
-        <label for = "expression"> Expression </label>
-        <br>
-        <input type = "text" name = "expression" id="inputExpression">  <button class = "btn btn-default" onclick = "backspace(this);"> Backspace </button> 
-        <button class = "btn btn-default" onclick = "refresh(this);"> Refresh </button>
-        <br>
-        <button class = "btn btn-default" onclick = "generateKmap(this);"> Generate K-map </button> 
-        <br>
-        <br>
-        <div id = "generateKmap"> </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <div id = "displayAnswer"> </div>
 
         <script type = "text/babel" src = "../js/tables.js"> </script>
         <script src = "../js/3-var.js"> </script>
-        <script src = "../js/input.js"> </script>
-        
-
-        <button type="button" class = "btn btn-link"> <a href = "K-map.html"> Back to home </button> </a>
-        
+        <script src = "../js/input.js"> </script>                                    
     </body>
 </html>

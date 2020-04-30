@@ -66,9 +66,9 @@ function generate5VarArray(booleanExpression)
     return array;
 }
 
-function solve5Var(booleanExpression){
+function generateMinterm5Dict(booleanExpression){
     
     minterms = booleanExpression.split("+");
-    m = [];
+    mintermsObject = {};
     
 }

@@ -46,51 +46,50 @@ function generate4VarArray(booleanExpression)
     return array;
 }
 
-function findOctet(array){
-
+function findOctet(object){
+    
 }
 
 function generateMinterm4Dict(booleanExpression){
     
     minterms = booleanExpression.split("+");
-    mintermsArray = [];
-    for (let i = 0; i < 16; i++){
-        mintermsArray[i] = 0;
+    mintermsObject = {};
+    for (let i = 0;i < 16; i++){
+        mintermsObject[i] = 0;
     }
 
     for (let minterm of minterms){
         switch(minterm){
-            case "A'B'C'D'": mintermsArray[0]=1; break;
-            case "A'B'C'D": mintermsArray[1]=1; break;
-            case "A'B'CD'": mintermsArray[3]=1; break;
-            case "A'B'CD": mintermsArray[2]=1; break;
+            case "A'B'C'D'": mintermsObject[0] = 1; break;
+            case "A'B'C'D": mintermsObject[1] = 1; break;
+            case "A'B'CD'": mintermsObject[3] = 1; break;
+            case "A'B'CD": mintermsObject[2] = 1; break;
 
-            case "A'BC'D'": mintermsArray[4]=1; break;
-            case "A'BC'D": mintermsArray[5]=1; break;
-            case "A'BCD'": mintermsArray[7]=1; break;
-            case "A'BCD": mintermsArray[6]=1; break;
+            case "A'BC'D'": mintermsObject[4] = 1; break;
+            case "A'BC'D": mintermsObject[5] = 1; break;
+            case "A'BCD'": mintermsObject[7] = 1; break;
+            case "A'BCD": mintermsObject[6] = 1; break;
+             
+            case "AB'C'D'": mintermsObject[12] = 1; break;
+            case "AB'C'D": mintermsObject[13] = 1; break;
+            case "AB'CD'": mintermsObject[15] = 1; break;
+            case "AB'CD":  mintermsObject[14] = 1; break;
             
-            case "AB'C'D'": mintermsArray[12]=1; break;
-            case "AB'C'D": mintermsArray[13]=1; break;
-            case "AB'CD'": mintermsArray[15]=1; break;
-            case "AB'CD": mintermsArray[14]=1; break;
-            
-            case "ABC'D'": mintermsArray[8]=1; break;
-            case "ABC'D": mintermsArray[9]=1; break;
-            case "ABCD'": mintermsArray[11]=1; break;
-            case "ABCD": mintermsArray[10]=1; break;
+            case "ABC'D'": mintermsObject[8] = 1; break;
+            case "ABC'D":  mintermsObject[9] = 1; break;
+            case "ABCD'":  mintermsObject[11] = 1; break;
+            case "ABCD":  mintermsObject[10] = 1; break;
         }
     }
-    return mintermsArray;
+    return mintermsObject;
 }
 
 function solve4Var(booleanExpression){
-
-    var m = generateMinterm4Array(booleanExpression);
+    var m = generateMinterm4Dict(booleanExpression);
     var inputExpression = booleanExpression;
     var minterms = booleanExpression.split("+");
     var finalAnswer = '';
-    var foundAnswer = true;
+    var foundAnswer = false;
 
     if (!foundAnswer){
         if (minterms.length == 1){
@@ -98,4 +97,34 @@ function solve4Var(booleanExpression){
             foundAnswer = true;
         }
     }
+
+    if (!foundAnswer){
+        let counter = 0;
+        for (element in m){
+            if (m[element]==1)
+                counter += 1;
+        }
+        if (counter==16){
+            finalAnswer = '1';
+            foundAnswer = true;
+        }
+    }
+
+    if (!foundAnswer){
+        let counter = 0;
+        for (element in m){
+            if (m[element]==0)
+                counter += 1;
+        }
+        if (counter==16){
+            finalAnswer = '0';
+            foundAnswer = true;
+        }
+    }
+
+
+
+    if (foundAnswer)
+        var finalExpression = finalAnswer;
+    return finalExpression;
 }

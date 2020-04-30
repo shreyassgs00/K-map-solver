@@ -5,7 +5,10 @@ function KMapTable(props)
         let columns = row.map(col => <td className="cell">{col}</td>)
         table.push(<tr>{columns}</tr>);
     }
-    return <table>{table}</table>;
+    return (<div>
+            <h2> K-map </h2>
+            <table>{table}</table>
+            </div>);
 }
 
 function generateTable(booleanExpression) 
