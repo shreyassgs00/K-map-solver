@@ -238,7 +238,7 @@ function splice2Array(array2,array4){ //Function to remove pairs from the pair a
         for (quad of array4){
             if (quad.includes(pair[0]) && quad.includes(pair[1])){
                 check = false;
-                break;
+                continue;
             }
         }
         if (check)
@@ -480,4 +480,16 @@ function solve3Var(booleanExpression){
     }
 
     return finalExpression;
+}
+
+function gateCount3(booleanExpression){
+    expression = solve3Var(booleanExpression);
+    expressionArray = expression.split("+");
+    var orGateInputCount = expressionArray.length;
+    var andGateCount = expressionArray.length;
+
+    if (orGateInputCount>0)
+        return "The final expression can be implemented using "+andGateCount+" AND gate(s) connected to a "+ orGateInputCount + " input OR gate";
+    else
+        return "The final expression can be implemented using "+andGateCount+" AND gate(s)"
 }

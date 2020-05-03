@@ -38,11 +38,26 @@ function generateTable(booleanExpression)
     else
         finalAnswer = solve5Var(booleanExpression);
 
+    let gateCountExpression = '';
+    if (constantCount == 3)
+        gateCountExpression = gateCount3(booleanExpression);
+    else if (constantCount == 4)
+        gateCountExpression = gateCount4(booleanExpression);
+    else
+        gateCountExpression = gateCount5(booleanExpression);
+    
     ReactDOM.render(<KMapTable table={tableArray}/>, document.getElementById("generateKmap"));
     ReactDOM.render(<DisplayAnswer finalExpression={finalAnswer}/>, document.getElementById("displayAnswer"));
+    ReactDOM.render(<DisplayGateCount gateExpression={gateCountExpression}/>, document.getElementById("displayGateCount"));
 }
 
 function DisplayAnswer(props){
     let finalExpression = '';
     return <h1> The final expression is {props.finalExpression} </h1>;
 }
+
+function DisplayGateCount(props){
+    let gateExpression = '';
+    return <h2> {props.gateExpression} </h2>;
+}
+
