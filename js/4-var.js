@@ -142,6 +142,8 @@ function findQuads(mintermsArray){
         if (mintermsArray[i][0]==1 && mintermsArray[i][3]==1 && mintermsArray[i+1][0]==1 && mintermsArray[i+1][3]==1)
             quadArray.push([[i,0],[i+1,0],[i,3],[i+1,3]]);
     }
+    if (mintermsArray[0][0]==1 && mintermsArray[0][3]==1 && mintermsArray[3][0]==1 && mintermsArray[3][3]==1)
+        quadArray.push([[0,3],[0,0],[3,0],[3,3]]);
     return quadArray;
 }
 
@@ -167,8 +169,11 @@ function findPairs(mintermsArray){
         if (mintermsArray[i][3]==1 && mintermsArray[i+1][3]==1)
             pairArray.push([[i,3],[i+1,3]]);
     }
+    for (let i = 0; i < 3; i++){
+        if (mintermsArray[3][i]==1 && mintermsArray[3][i+1]==1)
+            pairArray.push([[3,i],[3,i+1]]);
+    }
     return pairArray;
-    
 }
 
 function convertMultiToGrid(combinedArray){
@@ -200,6 +205,9 @@ function convertMultiToGrid(combinedArray){
             }
         }
         gridArray.push(array);
+        for (let array of gridArray){
+            array = array.sort((x,y)=>x-y);
+        }
     }
     return gridArray;
 }
@@ -349,11 +357,169 @@ function removeRedundantQuads(quads){
     return quads;
 }
 
+function removeRedundantPairs(pairs){ //Function to check redundancy of pairs
+    var array = [];
+    for (let i = 0; i < pairs.length; i++){
+        array.push(pairs[i][0]);
+        array.push(pairs[i][1]);
+    }
+    pairs = [];
+
+    for (let j = 0; j < array.length; j+=2){
+        let counter = 0;
+        for (let k = 0; k < array.length; k++){
+            if (k!=j && k!=j+1){
+                if (array[j] == array[k])
+                    counter = counter + 1;
+                if (array[j+1] == array[k])
+                    counter = counter+1;
+                else
+                    continue;
+            }
+        }
+        if (counter == 2)
+            array.splice(j,2);
+    }
+
+    for (let m = 0; m < array.length; m+=2){
+        pairs.push([array[m],array[m+1]]);
+    }
+    return pairs;
+}
+
+function generatePair4Expression(pairs){
+    var array = [];
+    var expression = '';
+    for (let pair of pairs){
+        element = pair.join('');
+        switch(element){
+            case '01': array.push("A'B'C'"); break;
+            case '02': array.push("A'B'D'"); break;
+            case '04': array.push("A'C'D'"); break;
+            case '08': array.push("B'C'D'"); break;
+            case '13': array.push("A'B'D"); break;
+            case '15': array.push("A'C'D"); break;
+            case '19': array.push("B'C'D"); break;
+            case '23': array.push("A'B'C"); break;
+            case '37': array.push("A'CD"); break;
+            case '311': array.push("B'CD"); break;
+            case '26': array.push("A'CD'"); break;
+            case '210': array.push("B'CD'"); break;
+            case '45': array.push("A'BC'"); break;
+            case '46': array.push("A'BD'"); break;
+            case '412': array.push("BC'D'"); break;
+            case '57': array.push("A'BD"); break;
+            case '513': array.push("BC'D"); break;
+            case '67': array.push("A'BC"); break;
+            case '715': array.push("BCD"); break;
+            case '614': array.push("BCD'"); break;
+            case '1213': array.push("ABC'"); break;
+            case '1214': array.push("ABD'"); break;
+            case '812': array.push("AC'D'"); break;
+            case '1315': array.push("ABD"); break;
+            case '913': array.push("AC'D"); break;
+            case '1115': array.push("ACD"); break;
+            case '1415': array.push("ABC"); break;
+            case '1014': array.push("ACD'"); break;
+            case '810': array.push("AB'D'"); break;
+            case '89': array.push("AB'C'"); break;
+            case '911': array.push("AB'D"); break;
+            case '1011': array.push("AB'C"); break;
+        }
+    }
+    expression = array.join("+");
+    return expression;
+}
+
+function generateQuad4Expression(quads){
+    var array = [];
+    var expression = '';
+    for (let quad of quads){
+        element = quad.join('');
+        switch(element){
+            case '0145': array.push("A'C'"); break;
+            case '0246': array.push("A'D'"); break;
+            case '0189': array.push("B'C'"); break;
+            case '02810': array.push("B'D'"); break;
+            case '1357': array.push("A'D"); break;
+            case '13911': array.push("B'D"); break;
+            case '2367': array.push("A'C"); break;
+            case '231011': array.push("B'C"); break;
+            case '451213': array.push("BC'"); break;
+            case '461214': array.push("BD'"); break;
+            case '571315': array.push("BD"); break;
+            case '671415': array.push("BC"); break;
+            case '8101214': array.push("AD'"); break;
+            case '891213': array.push("AC'"); break;
+            case '9111315': array.push("AD"); break;
+            case '10111415': array.push("AC"); break;
+            case '0123': array.push("A'B"); break;
+            case '04812': array.push("C'D'"); break;
+            case '4567': array.push("A'B"); break;
+            case '15913': array.push("C'D"); break;
+            case '12131415': array.push("AB"); break;
+            case '371115': array.push("CD"); break;
+            case '891011': array.push("AB'"); break;
+            case '261014':array.push("CD'"); break;
+        }
+    }
+    expression = array.join("+");
+    return expression;
+}
+
+function generateOctet4Expression(octets){
+    var array = [];
+    var expression = '';
+    for (let octet of octets){
+        element = octet.join('');
+        switch(element){
+            case '01234567': array.push("A'"); break;
+            case '89101112131415': array.push("A"); break;
+            case '0145891213':array.push("C'"); break;
+            case '135710111315': array.push("D"); break;
+            case '236710111415': array.push("C"); break;
+            case '02468101214': array.push("D'"); break;
+            case '456712131415': array.push("B"); break;
+            case '0123891011': array.push("B'"); break;
+        }
+    }
+    expression = array.join("+");
+    return expression;
+}
+
+function generateSingle4Expression(singleElements){
+    var array = [];
+    var expression = '';
+    for (let i = 0; i < singleElements.length; i++){
+        element = singleElements[i];
+        switch(element){
+            case 0: array.push("A'B'C'D'");break;
+            case 1: array.push("A'B'C'D"); break;
+            case 2: array.push("A'B'CD'"); break;
+            case 3: array.push("A'B'CD"); break;
+            case 4: array.push("A'BC'D'"); break;
+            case 5: array.push("A'BC'D"); break;
+            case 6: array.push("A'BCD'"); break;
+            case 7: array.push("A'BCD"); break;
+            case 8: array.push("AB'C'D'"); break;
+            case 9: array.push("AB'C'D"); break;
+            case 10: array.push("AB'CD'"); break;
+            case 11: array.push("AB'CD"); break;
+            case 12: array.push("ABC'D'"); break;
+            case 13: array.push("ABC'D"); break;
+            case 14: array.push("ABCD'"); break;
+            case 15: array.push("ABCD"); break;
+        }
+    }
+    expression = array.join('+');
+    return expression;
+}
+
 function solve4Var(booleanExpression){
     var m = generate4VarArray(booleanExpression);
     var inputExpression = booleanExpression;
     var minterms = booleanExpression.split("+");
-    var finalAnswer = '';
+    let finalAnswer = '';
     var foundAnswer = false;
 
     if (!foundAnswer){
@@ -392,13 +558,118 @@ function solve4Var(booleanExpression){
     }
 
     if (!foundAnswer){
-        
+        o = findOctets(m);
+        octets = convertMultiToGrid(o);
+        if (octets.length>0){
+            finalAnswer = finalAnswer+'+'+generateOctet4Expression(octets);
+            q = findQuads(m);
+            quads = convertMultiToGrid(q);
+            quads = removeExistingQuads(quads,octets);
+            quads = removeRedundantQuads(quads);
+            if (quads.length>0){
+                finalAnswer = finalAnswer+'+'+generateQuad4Expression(quads);
+                p = findPairs(m);
+                pairs = convertMultiToGrid(p);
+                pairs = removeExistingPairs(pairs,quads,octets);
+                pairs = removeRedundantPairs(pairs);
+                if (pairs.length>0){
+                    finalAnswer = finalAnswer+'+'+generatePair4Expression(pairs);
+                    s = findSingleElements(m);
+                    singles = convertSingleToGrid(s);
+                    if (singles.length>0)
+                        finalAnswer = finalAnswer+'+'+generateSingle4Expression(singles);
+                }
+                else{
+                    s = findSingleElements(m);
+                    singles = convertSingleToGrid(s);
+                    if (singles.length>0)
+                        finalAnswer = finalAnswer+'+'+generateSingle4Expression(singles);
+                }
+            }
+            else{
+                p = findPairs(m);
+                pairs = convertMultiToGrid(p);
+                pairs = removeExistingPairs(pairs,quads,octets);
+                pairs = removeRedundantPairs(pairs);
+                if (pairs.length>0){
+                    finalAnswer = generatePair4Expression(pairs);
+                    s = findSingleElements(m);
+                    singles = convertSingleToGrid(s);
+                    if (singles.length>0)
+                        finalAnswer = finalAnswer+'+'+generateSingle4Expression(singles);
+                }
+                else{
+                    s = findSingleElements(m);
+                    singles = convertSingleToGrid(s);
+                    if (singles.length>0)
+                        finalAnswer = finalAnswer+'+'+generateSingle4Expression(singles);
+                }
+            }
+        }
+        else{
+            q = findQuads(m);
+            quads = convertMultiToGrid(q);
+            quads = removeRedundantQuads(quads);
+            if (quads.length>0){
+                finalAnswer = finalAnswer+'+'+generateQuad4Expression(quads);
+                p = findPairs(m);
+                pairs = convertMultiToGrid(p);
+                pairs = removeExistingPairs(pairs,quads,octets);
+                pairs = removeRedundantPairs(pairs);
+                if (pairs.length>0){
+                    finalAnswer = finalAnswer+'+'+generatePair4Expression(pairs);
+                    s = findSingleElements(m);
+                    singles = convertSingleToGrid(s);
+                    if (singles.length>0)
+                        finalAnswer = finalAnswer+'+'+generateSingle4Expression(singles);
+                }
+                else{
+                    s = findSingleElements(m);
+                    singles = convertSingleToGrid(s);
+                    if (singles.length>0)
+                        finalAnswer = finalAnswer+'+'+generateSingle4Expression(singles);
+                }
+            }
+            else{
+                p = findPairs(m);
+                pairs = convertMultiToGrid(p);
+                pairs = removeExistingPairs(pairs,quads,octets);
+                pairs = removeRedundantPairs(pairs);
+                if (pairs.length>0){
+                    finalAnswer = generatePair4Expression(pairs);
+                    s = findSingleElements(m);
+                    singles = convertSingleToGrid(s);
+                    if (singles.length>0)
+                        finalAnswer = finalAnswer+'+'+generateSingle4Expression(singles);
+                }
+                else{
+                    s = findSingleElements(m);
+                    singles = convertSingleToGrid(s);
+                    if (singles.length>0)
+                        finalAnswer = finalAnswer+'+'+generateSingle4Expression(singles);
+                }
+            }
+        }
+        foundAnswer = true; 
     }
 
+    finalAnswer = finalAnswer.split('');
+    if (finalAnswer[0]=='+')
+        finalAnswer.splice(0,1);
+
     if (foundAnswer)
-        var finalExpression = finalAnswer;
+        var finalExpression = finalAnswer.join('');
     return finalExpression ;
 }
 
-e = "A'B'C'D'+A'B'C'D+A'B'CD'+A'B'CD+A'BC'D'+A'BC'D+A'BCD'+A'BCD+AB'C'D'+AB'C'D+AB'CD'+AB'CD+ABC'D'+ABC'D+ABCD'+ABCD";
-console.log(solve4Var(e));
+function gateCount4(booleanExpression){
+    expression = solve4Var(booleanExpression);
+    expressionArray = expression.split("+");
+    var orGateInputCount = expressionArray.length;
+    var andGateCount = expressionArray.length;
+
+    if (orGateInputCount>0)
+        return "The final expression can be implemented using "+andGateCount+" AND gate(s) connected to a "+ orGateInputCount + " input OR gate";
+    else
+        return "The final expression can be implemented using "+andGateCount+" AND gate(s)"
+}
